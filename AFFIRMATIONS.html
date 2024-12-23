@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Affirmations Page</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@500&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      body {
+        background-color: eggshell;
+        font-family: "Work Sans", sans-serif;
+        font-size: 14px;
+        line-height: 1.6;
+        margin: 0;
+        padding: 20px;
+        overflow: hidden; /* Prevent scrolling when note is open */
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      .header .button-container {
+        display: flex;
+        align-items: center;
+      }
+      .header .button-container a {
+        text-decoration: none;
+        color: black;
+        font-weight: bold;
+        margin-right: 20px;
+        display: flex;
+        align-items: center;
+      }
+      .header .button-container a:hover {
+        color: #355e3b;
+      }
+      .header .home-button i {
+        font-size: 16px;
+        margin-right: 5px;
+      }
+      .header .line {
+        flex-grow: 1;
+        height: 1px;
+        background-color: black;
+      }
+      .folder-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 55px;
+        justify-content: center;
+        margin-top: 90px; /* Adjust space from heading */
+      }
+      .folder {
+        width: 120px;
+        height: 80px;
+        background: rgba(0, 0, 0, 0.1);
+        border: 2px solid #ccc;
+        position: relative;
+        cursor: pointer;
+        transition: transform 0.3s, box-shadow 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(0, 0, 0, 0.1);
+        margin: 10px;
+        border-radius: 9px;
+      }
+      .folder::before {
+        content: "";
+        display: block;
+        width: 100px;
+        height: 30px;
+        background: #f7f7f7;
+        border-bottom: 2px solid #ccc;
+        position: absolute;
+        top: -15px;
+        left: 10px;
+        z-index: 1;
+        border-radius: 0 0 10px 10px;
+      }
+      .folder:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      .note {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 50%;
+        height: 400px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        overflow-y: auto;
+        z-index: 1000;
+        border: 2px solid #ccc;
+      }
+      .note.open {
+        display: block;
+      }
+      .note .close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+        font-size: 18px;
+        background: rgba(255, 255, 255, 0.945);
+        border-radius: 50%;
+        padding: 5px;
+        transition: 0.5s;
+      }
+      .note .close:hover {
+        color: #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="button-container">
+        <a href="index.html" class="home-button">
+          <i class="fas fa-home"></i> Home
+        </a>
+        <a href="SONGS.html">Songs</a>
+        <a href="WORDS.html">Words</a>
+      </div>
+      <div class="line"></div>
+    </div>
+
+    <div class="folder-container">
+      <div class="folder" onclick="openNote('Note 1 content')">Folder 1</div>
+      <div class="folder" onclick="openNote('Note 2 content')">Folder 2</div>
+      <div class="folder" onclick="openNote('Note 3 content')">Folder 3</div>
+      <div class="folder" onclick="openNote('Note 4 content')">Folder 4</div>
+      <div class="folder" onclick="openNote('Note 5 content')">Folder 5</div>
+      <div class="folder" onclick="openNote('Note 6 content')">Folder 6</div>
+      <div class="folder" onclick="openNote('Note 7 content')">Folder 7</div>
+      <div class="folder" onclick="openNote('Note 8 content')">Folder 8</div>
+      <div class="folder" onclick="openNote('Note 9 content')">Folder 9</div>
+      <div class="folder" onclick="openNote('Note 10 content')">Folder 10</div>
+      <div class="folder" onclick="openNote('Note 11 content')">Folder 11</div>
+      <div class="folder" onclick="openNote('Note 12 content')">Folder 12</div>
+      <div class="folder" onclick="openNote('Note 13 content')">Folder 13</div>
+      <div class="folder" onclick="openNote('Note 14 content')">Folder 14</div>
+      <div class="folder" onclick="openNote('Note 15 content')">Folder 15</div>
+      <div class="folder" onclick="openNote('Note 16 content')">Folder 16</div>
+      <div class="folder" onclick="openNote('Note 17 content')">Folder 17</div>
+      <div class="folder" onclick="openNote('Note 18 content')">Folder 18</div>
+      <!-- Add more folders as needed -->
+    </div>
+
+    <div id="note" class="note">
+      <span class="close" onclick="closeNote()">&times;</span>
+      <p id="note-content">Note content will appear here.</p>
+    </div>
+
+    <script>
+      function openNote(content) {
+        document.getElementById("note").classList.add("open");
+        document.getElementById("note-content").textContent = content;
+      }
+
+      function closeNote() {
+        document.getElementById("note").classList.remove("open");
+      }
+    </script>
+  </body>
+</html>

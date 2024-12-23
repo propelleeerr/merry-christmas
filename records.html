@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Realistic Record Player</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@500&display=swap"
+    />
+    <style>
+      body {
+        font-family: "Work Sans", sans-serif;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f5f5f5;
+        padding-left: 100px;
+      }
+
+      .record-player {
+        width: 500px;
+        height: 500px;
+        background-color: #333;
+        border-radius: 20px;
+        position: relative;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      .turntable {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        box-sizing: border-box;
+        flex: 1;
+      }
+
+      .record {
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, #000 0%, #333 100%);
+        border-radius: 50%;
+        position: relative;
+        border: 10px solid #666;
+        animation: rotate 5s linear infinite;
+      }
+
+      .record.paused {
+        animation-play-state: paused;
+      }
+
+      .hole {
+        width: 40px;
+        height: 40px;
+        background-color: #444;
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .stylus {
+        width: 80px;
+        height: 12px;
+        background-color: #777;
+        position: absolute;
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        transform-origin: left center;
+      }
+
+      .stylus-arm {
+        width: 8px;
+        height: 100px;
+        background-color: #777;
+        position: absolute;
+        top: 0;
+        left: 30px;
+        transform-origin: top center;
+        transform: rotate(-45deg);
+      }
+
+      .base {
+        width: 100%;
+        height: 30px;
+        background-color: #222;
+        border-radius: 10px;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+      }
+
+      .volume-slider {
+        position: absolute;
+        bottom: 10px;
+        left: 20px;
+        width: calc(100% - 40px);
+        height: 20px;
+        background-color: #222;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
+        box-sizing: border-box;
+      }
+
+      .volume-slider input {
+        -webkit-appearance: none;
+        width: 100%;
+        height: 10px;
+        background: #444;
+        cursor: pointer;
+        border-radius: 5px;
+      }
+
+      .volume-slider input::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 20px;
+        height: 20px;
+        background: #777;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+
+      .volume-slider input::-moz-range-thumb {
+        width: 20px;
+        height: 20px;
+        background: #777;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+
+      .power-button {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        font-size: 24px;
+        color: #777;
+        cursor: pointer;
+        transition: color 0.3s;
+      }
+
+      .power-button.active {
+        color: red;
+      }
+
+      .box {
+        width: 300px;
+        background-color: rgba(200, 200, 200, 0.9);
+        border-radius: 15px;
+        padding: 20px;
+        margin-left: 90px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        overflow: hidden;
+      }
+
+      .box img {
+        width: 100%;
+        height: auto;
+        max-height: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+      }
+
+      .text-container {
+        margin-top: 10px;
+        width: 100%;
+        text-align: left;
+      }
+
+      .text-container span {
+        display: block;
+      }
+
+      .text-container .sphere {
+        font-size: 14px;
+        color: #949292;
+      }
+
+      .text-container .title {
+        font-weight: bold;
+        font-size: 16px;
+        color: #333;
+      }
+
+      .text-container .artist {
+        font-size: 14px;
+        color: #333;
+      }
+
+      .progress-bar-container {
+        width: 100%;
+        background: #ddd;
+        height: 10px;
+        border-radius: 5px;
+        margin-top: 10px;
+        position: relative;
+        cursor: pointer;
+      }
+
+      .progress-bar {
+        height: 100%;
+        background: #777;
+        width: 0%;
+        border-radius: 5px;
+      }
+
+      .time-display {
+        margin-top: 10px;
+        width: 100%;
+        display: flex;
+      }
+
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="record-player">
+      <div class="turntable">
+        <div class="record">
+          <div class="hole"></div>
+          <div class="stylus">
+            <div class="stylus-arm"></div>
+          </div>
+        </div>
+        <div class="base"></div>
+      </div>
+      <div class="volume-slider">
+        <input
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0.5"
+          id="volume-control"
+        />
+      </div>
+      <div class="power-button" id="toggle">⚫</div>
+      <audio id="audio" src="mp3/Get You.mp3"></audio>
+    </div>
+
+    <div class="box">
+      <img id="detail-image" src="pics/GT.jpeg" alt="Detail Image" />
+      <div class="text-container">
+        <span class="sphere">statoesphere's</span>
+        <span class="title">Get You</span>
+        <span class="artist">Daniel Caesar</span>
+      </div>
+      <div class="progress-bar-container" id="progress-bar-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      <div class="time-display">
+        <span id="current-time">00:00</span> / <span id="duration">04:</span>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const record = document.querySelector(".record");
+        const button = document.getElementById("toggle");
+        const audio = document.getElementById("audio");
+        const volumeControl = document.getElementById("volume-control");
+        const progressBar = document.getElementById("progress-bar");
+        const progressBarContainer = document.getElementById(
+          "progress-bar-container"
+        );
+        const durationDisplay = document.getElementById("duration");
+        const currentTimeDisplay = document.getElementById("current-time");
+        const songTitle = document.getElementById("song-title");
+        const songArtist = document.getElementById("song-artist");
+        const detailImage = document.getElementById("detail-image");
+
+        let interval;
+        let playing = false;
+
+        function getQueryParams() {
+          const params = new URLSearchParams(window.location.search);
+          return {
+            songId: params.get("song") || "9", // Default to songId '9' if not found
+          };
+        }
+
+        const { songId } = getQueryParams();
+
+        // Map song IDs to their respective MP3 files and image sources
+        const songData = {
+          9: {
+            mp3: "Get You.mp3",
+            image: "songs/GT.jpeg",
+            title: "Get You",
+            artist: "Daniel Caesar",
+          },
+          10: {
+            mp3: "Something.mp3",
+            image: "songs/Something.jpeg",
+            title: "Something",
+            artist: "Artist Name",
+          },
+          // Add more song IDs as needed
+        };
+
+        const songInfo = songData[songId] || songData["9"]; // Default to ID '9' if not found
+
+        audio.src = `songs/${songInfo.mp3}`;
+        detailImage.src = songInfo.image;
+        songTitle.textContent = songInfo.title;
+        songArtist.textContent = songInfo.artist;
+
+        button.addEventListener("click", () => {
+          if (playing) {
+            audio.pause();
+            record.classList.add("paused");
+            button.textContent = "⚫";
+            button.classList.remove("active");
+          } else {
+            audio.play();
+            record.classList.remove("paused");
+            button.textContent = "🔴";
+            button.classList.add("active");
+          }
+          playing = !playing;
+        });
+
+        volumeControl.addEventListener("input", (event) => {
+          audio.volume = event.target.value;
+        });
+
+        function updateProgress() {
+          const duration = audio.duration || 1;
+          const currentTime = audio.currentTime;
+          const progressPercent = (currentTime / duration) * 100;
+          progressBar.style.width = `${progressPercent}%`;
+
+          const minutes = Math.floor(duration / 60);
+          const seconds = Math.floor(duration % 60);
+          durationDisplay.textContent = `-${minutes}:${seconds
+            .toString()
+            .padStart(2, "0")}`;
+
+          const currentMinutes = Math.floor(currentTime / 60);
+          const currentSeconds = Math.floor(currentTime % 60);
+          currentTimeDisplay.textContent = `${currentMinutes}:${currentSeconds
+            .toString()
+            .padStart(2, "0")}`;
+        }
+
+        function startProgress() {
+          interval = setInterval(updateProgress, 1000); // Update progress every second
+        }
+
+        function stopProgress() {
+          clearInterval(interval);
+        }
+
+        audio.addEventListener("play", startProgress);
+        audio.addEventListener("pause", stopProgress);
+        audio.addEventListener("ended", stopProgress); // Stop progress on audio end
+
+        // Ensure progress updates correctly on time update
+        audio.addEventListener("timeupdate", updateProgress);
+
+        progressBarContainer.addEventListener("click", (event) => {
+          const rect = progressBarContainer.getBoundingClientRect();
+          const x = event.clientX - rect.left;
+          const progressPercent = x / rect.width;
+          audio.currentTime = progressPercent * audio.duration;
+          updateProgress(); // Update progress bar display
+        });
+
+        // Initialize with correct values
+        if (audio.readyState > 0) {
+          updateProgress();
+        } else {
+          audio.addEventListener("loadedmetadata", updateProgress);
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Affirmations Page</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@500&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      body {
+        background-color: eggshell;
+        font-family: "Work Sans", sans-serif;
+        font-size: 14px;
+        line-height: 1.6;
+        margin: 0;
+        padding: 20px;
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      .header .button-container {
+        display: flex;
+        align-items: center;
+      }
+      .header .button-container a {
+        text-decoration: none;
+        color: black;
+        font-weight: bold;
+        margin-right: 20px;
+        display: flex;
+        align-items: center;
+      }
+      .header .button-container a:hover {
+        color: #355e3b;
+      }
+      .header .home-button i {
+        font-size: 16px;
+        margin-right: 5px;
+      }
+      .header .line {
+        flex-grow: 1;
+        height: 1px;
+        background-color: black;
+      }
+      .folder-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 55px;
+        justify-content: center;
+        margin-top: 90px; /* Adjust space from heading */
+      }
+      .folder {
+        width: 120px;
+        height: 80px;
+        background: rgba(0, 0, 0, 0.1);
+        border: 2px solid #929090c7;
+        position: relative;
+        cursor: pointer;
+        transition: transform 0.3s, box-shadow 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(0, 0, 0, 0.1);
+        margin: 10px;
+        border-radius: 9px;
+      }
+      .folder::before {
+        content: "";
+        display: block;
+        width: 100px;
+        height: 30px;
+        background: #f7f7f7;
+        border-bottom: 2px solid #ccc;
+        position: absolute;
+        top: -15px;
+        left: 10px;
+        z-index: 1;
+        border-radius: 0 0 10px 10px;
+      }
+      .folder:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 900;
+      }
+      .note {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 60%;
+        max-width: 800px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        padding: 30px;
+        overflow-y: auto;
+        z-index: 1000;
+        border: 2px solid #ccc;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+      }
+      .note.open {
+        display: block;
+        opacity: 1;
+      }
+      .note .close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+        font-size: 24px;
+        background: rgba(255, 255, 255, 0.945);
+        border-radius: 50%;
+        padding: 5px;
+        transition: 0.5s;
+      }
+      .note .close:hover {
+        color: #ccc;
+      }
+      .note p {
+        font-family: "Georgia", serif; /* Change font family to a prettier style */
+        font-size: 18px; /* Increase font size */
+        line-height: 1.5;
+        text-align: center; /* Center the text */
+        margin: 0;
+      }
+      .no-scroll {
+        overflow: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="button-container">
+        <a href="index.html" class="home-button">
+          <i class="fas fa-home"></i> Home
+        </a>
+        <a href="WORDS.html">Words</a>
+        <a href="SONGS.html">Songs</a>
+      </div>
+      <div class="line"></div>
+    </div>
+
+    <div class="folder-container">
+      <div
+        class="folder"
+        onclick="openNote('You are enough just the way you are. There is not a thing you need to change or fix to be worthy of love and acceptance. Your worth is not measured by your flaws, but by your strength in embracing those. You are enough, right now. ')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('You will learn to unlearn all the bad habits you taught yourself and you will grow into someone stronger than you have ever imagined yourself to be.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('For the person you are, for every single thing you do, the way you heart and your mind works, are something to be incredibly proud of. Which many people, including me, find admirable.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('Your thoughtfulness and compassion is warm embrace on a cold day. They reflect the brautiful soul that shines from within you. The way you deeply care and value meaningful connections is admirable and not only touches those around you but also shows the person you are inside.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('Each and every single effort of yours matter. Even if you do not always see the immediate impact, the steps you take to move forward and care for yourself is meaningful. Each small action contributes to your well-being, and over time, it builds up to something significant.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('Courage is something you have to choose a thousand times too and not one of those a thousand times is easy.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('Even if there are times that it feels as if the whole world is against you, you are not alone. There are people who care about you and support you. There are shoulders to lean on and hands that are ready to help. Your strenght lies not just in overcoming challenges, but in connecting with others during those times.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('You are a story waiting to be written. Each chapter of your life is a chance to discover new things about yourself, new strengths, and chance to overcome challenges.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('In order to love who you are, you cannot hate the experiecnes that shaped you.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('Like ripples in a pond, your presence extends far beyond what you can see. Your presence alone can be a source of comfort for others. Even if the effects are not always visible to you, your genuine care and efforts does not go unnoticed. Even the smallest of acts can create the biggest waves of change.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('You are more cherished than you may ever know. Your support and understanding does not go unnoticed. To the times you simply show up, even without words, means a lot to those around you.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('You are an incredibly caring and kind person who makes a real difference. Your way of being there for others, through both big and small gestures, brings a sense of reassurance that is invaluable.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('You are worth finding. Worth knowing. You and your one million layers, or even more. It would never become too much for the right people.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('There will be days when you are extra vulnerable and overwhelmed, and that is okay. It will happen and you can acknowledge these feelings and take the time to process it. Sometimes, you are really going to feel this and find some gentleness.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('It is okay to find comfort in the small things. Sometimes, the simplest things can offer the greatest of relief and joy. Whether it is a simple pleasure or a small routine, if it brings you joy and peace, that is what truly matters. Your happiness and well-being must always be first, so let those small moments of comfort be a meaningful part of your journey.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('Your heart holds a universe of compassion. It is full of care and understanding. You see the good in others, and you take care of them with such care. You are a warmth that everyone would be grateful for on cold day.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('Time will pass regardless of how you spend it. It will not go away until you grow around it. How you choose to spend your time shapes who you become. Make the most out of every single moment.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('Healing involves discomfort, but so does refusing to heal. Over time, refusing to heal will always be more painful.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('To be ambitious is not a bad thing, as it represents your potential. Your desire to achieve and grow can help you reach great heights. Healthy ambition is what drives you and keeps your passion alive. Even if others may not understand or support it, and even if you face challenges, your ambition could never become a bad thing.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('You could only love others at the capacity that you love yourself. Everyday is a window of opportunity to discover or rediscover, and remeber who you are as a person.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('It is okay to express your needs and desires. Your feelings and wants are valid. Whether it is sharing with others or simply recognizing them for yourself, communicating your needs ensures that you are taking care of what is important to you. You deserve to be hard and understood, kaya do not hesitate to voice what you need and desire.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('You are an art in progress. Every stroke of experience adds depth to your character. In every journey, embrace the beauty of your evolving self. Trust the artist you know within you.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('You have weathered storms that would have broken others. Each difficult day you had expereinced has made you stronger. In every obstacle, you have emerged with a heart full of courage and that is why I know that you know to yourself, it is worth it to keep going. With every hardships, you will overcome all of them.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('You are under no obligation to remain the same person as you were a year ago, a month ago, a day ago, or even hours ago. You are here for yourself. To create yourself, continuously.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('It is okay to let go of what hurts. Holding onto pain can feel like carrying the burden of the whole world. You deserve to find peace and healing. Letting go does not mean forgetting, but allows space for growth and happiness.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('You are an incredibly compassionate and considerate person, but the feelings of other people are not your responsibility. You cannot control how others feel or react. What is important is you prioritize your own well-being. Your primary responsibility is to take care of yourself, not to prioritize the feelings of others.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('Let go of the need to overthink everything. Life will be so subtle sometimes that you barely notice yourself walking through doors you once hoped would open.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('It is okay not to completely know how you feel at the moment. Emotions can be complicated and uncertain, and it is okay to feel unsure. Give yourself time to sit with these feelings and understand that it is okay to take time to figure them out. You do not have to have everything sorted agad-agad because being patient with yourself is a part of the process.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('The love you gave will never be wasted. Every act of  kindness, every moment of care, and every gesture of affection has its own special place and value.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('You are not defined by your struggles. Every hurt you feel, every challenge you face, every breakdowns you experience, although all challenging, are the ones that shapes your character into a book of resilience and strenght.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('It is okay to take things one step at a time. You may not have everything figured out at this very moment, but you will. Progress is also done in small, manageable steps rather than big leaps. Focus on what you can handle today, you will find that each small step moves you forward, even if it doesn not feel like it is much in the moment. Small steps is still a step forward.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('Take the time to heal and grow. Healing is a process, and every step you take, no matter how small, is still progress. Each of those litter progress, or baby steps, shows your dedication to yourself and that is what counts the most. It is perfectly okay to move at your own pace.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('It is okay if you are scared, or tired, or unsure, or one million other complicated emotions at once. Hold the belief close to your heart that things will turn out okay anyway.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('When you need support and a shoulder to lean on, there is not a reason to hesitate about reaching out. There are many peoplearound you who are willing to to help and support you. It is okay to let yourself be vulnerable and letting others know you need a hand.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('There will be moments where you feel overwhelmed and you need a break, and that is also okay. To reach a point where you need to step back and catch your breath is not shameful. Taking the time to breathe is essential for yourself. It is okay to pause every once in a while and give yourself the space to rest, as you deserve so.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('You are more than the sum of your challenges. What truly defines you is your heart, your kindness, and compassion you bring to the world. Those qualities alone make you special and valuable, far beyond any obstacle you face.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('Your worth is not determined by your productivity. There will be days that would feel unproductive but slow days are like gentle rain. Those days is a moment to recharge, to allow your creativity and self-care to deepen. To prepare for the sunnier days ahead.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('It is okay to feel uncertain. Not having all the answers or knowing exactly what will happen is okay. Uncertainty can be uncomfortable, pero it is also a space for growth and maturity. The state of uncertainty is just a step towards discovering something new about yourself or the world around you.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('Be gentle with yourself. Just as caring and compassionate you are towards a friend, that should also be how you are to yourself. You are more than deserving of kindness and understanding, both from yourself and others.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('You are allowed to take a break. You do not have to be constantly strong kasi even the strongest trees need a moment to bend in the wind. It is okay to not be okay, to feel tired, or simply need a pause. Hindi need ng strength mo to constantly lie in resilience, but in your ability to rise again after every hardships.')"
+      ></div>
+      <div
+        class="folder"
+        onclick="openNote('You will live and you will say the wrong things and make mistakes and people will stay regardless.')"
+      ></div>
+
+      <div
+        class="folder"
+        onclick="openNote('You should not have to stuck in any more situations where the worst in you is brought out. It would be exhausting and requires too much for you to recover from. You deserve calmness and gentleness in your life. Anything other than that is something you should not adjust for.')"
+      ></div>
+    </div>
+
+    <div id="overlay" class="overlay"></div>
+
+    <div id="note" class="note">
+      <span class="close" onclick="closeNote()">&times;</span>
+      <p id="note-content">Note content will appear here.</p>
+    </div>
+
+    <script>
+      function openNote(content) {
+        document.getElementById("note").classList.add("open");
+        document.getElementById("overlay").style.display = "block"; // Show overlay
+        document.body.classList.add("no-scroll"); // Prevent scrolling
+        document.getElementById("note-content").textContent = content;
+      }
+
+      function closeNote() {
+        document.getElementById("note").classList.remove("open");
+        document.getElementById("overlay").style.display = "none"; // Hide overlay
+        document.body.classList.remove("no-scroll"); // Restore scrolling
+      }
+    </script>
+  </body>
+</html>

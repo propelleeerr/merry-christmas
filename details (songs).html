@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Details Page</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@500&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      body {
+        background-color: eggshell;
+        font-family: "Work Sans", sans-serif;
+        font-size: 14px;
+        line-height: 1.6;
+        margin: 0;
+        padding: 20px;
+        padding-bottom: 100px; /* Padding to prevent content from being covered by taskbar */
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      .header .button-container {
+        display: flex;
+        align-items: center;
+      }
+      .header .button-container a {
+        text-decoration: none;
+        color: black;
+        font-weight: bold;
+        margin-right: 20px;
+        display: flex;
+        align-items: center;
+      }
+      .header .button-container a:hover {
+        color: #355e3b;
+      }
+      .header .home-button i {
+        font-size: 16px;
+        margin-right: 5px;
+      }
+      .header .line {
+        flex-grow: 1;
+        height: 1px;
+        background-color: black;
+      }
+      .content-container {
+        position: relative;
+        border: 2px solid black;
+        padding: 20px;
+        border-radius: 10px;
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      .spotify-icon {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        font-size: 24px;
+        color: black;
+        cursor: pointer;
+      }
+      .spotify-icon:hover {
+        color: #1db954;
+      }
+      .image-container {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .image-container img {
+        width: 400px;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+      }
+      .info {
+        text-align: center;
+      }
+      h1 {
+        color: black;
+        margin-bottom: 10px;
+      }
+      p {
+        color: black;
+        margin-top: 0;
+        text-align: justify;
+        font-size: 15px;
+      }
+      .taskbar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 80px;
+        background-color: black;
+        color: white;
+        display: flex;
+        align-items: center;
+        padding: 0 20px;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+      }
+      .taskbar button,
+      .taskbar input[type="range"] {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 20px;
+        margin: 0 10px;
+        cursor: pointer;
+      }
+      .taskbar button:hover {
+        color: #1db954;
+      }
+      .volume-control {
+        display: flex;
+        align-items: center;
+      }
+      .volume-control input[type="range"] {
+        width: 115px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <div class="button-container">
+        <a href="index.html" class="home-button"
+          ><i class="fas fa-home"></i> Home</a
+        >
+        <a href="SONGS.html">Songs</a>
+        <a href="WORDS.html">Words</a>
+      </div>
+      <div class="line"></div>
+    </div>
+
+    <div class="content-container">
+      <i class="fab fa-spotify spotify-icon" onclick="openSpotify()"></i>
+      <div class="image-container">
+        <img id="detail-image" src="" alt="Detail Image" />
+      </div>
+      <div class="info">
+        <h1 id="detail-title">Details Page</h1>
+        <p id="detail-content">
+          This is the detailed content that will be displayed based on the image
+          clicked.
+        </p>
+      </div>
+    </div>
+
+    <div class="taskbar" id="taskbar">
+      <button id="playPauseButton"><i class="fas fa-play"></i></button>
+      <div class="volume-control">
+        <input
+          id="volumeControl"
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value="0.5"
+        />
+      </div>
+      <audio id="audioPlayer" src="assets/audio/your-track.mp3"></audio>
+    </div>
+
+    <script>
+      const playPauseButton = document.getElementById("playPauseButton");
+      const volumeControl = document.getElementById("volumeControl");
+      const audioPlayer = document.getElementById("audioPlayer");
+
+      playPauseButton.addEventListener("click", () => {
+        if (audioPlayer.paused) {
+          audioPlayer.play();
+          playPauseButton.innerHTML = '<i class="fas fa-pause"></i>';
+        } else {
+          audioPlayer.pause();
+          playPauseButton.innerHTML = '<i class="fas fa-play"></i>';
+        }
+      });
+
+      volumeControl.addEventListener("input", () => {
+        audioPlayer.volume = volumeControl.value;
+      });
+
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get("id");
+
+      const details = {
+        1: {
+          title: "Do Not Wait - Wallows",
+          content:
+            "The song beautifully captures a message of unwavering support and presence, especially when things feel overwhelming for you. It says that there will be times when you feel like everything is falling apart, and the weight of those moments can be heavy. The repeated lines of 'I'll be there' serves as an assurance that even when it feels like nothing is going right, there's always someone who cares deeply and is ready to stand by your side. It tells the importance of not waiting or hesitating when seeking support, reinforcing that someone is always ready to help, no matter how tough things get. As you get through those things, I want you to know you're not alone. This song, overall, represents an intimate conversation between your current self and your old self, serving as a sincere reminder that you will move forward. The assurance to be there through it all reflects the reliability of those who truly care about you. Even when things feel difficult, you will have someone by your side, offering support and understanding. I will do my very best to ensure that I am that person.",
+          image: "songs/DNT (1).jpg",
+          mp3: "mp3/Wallows - Do Not Wait (Official Audio).mp3",
+          spotifyUrl:
+            "https://open.spotify.com/track/4NpEJp3Iw0Wk0lsPYQZeEF?si=6fae8ce543a24df5",
+        },
+        2: {
+          title: "Summertime - Roadtrip to Antarctica",
+          content:
+            "The song beautifully captures a deep desire to connect on a personal level. It highlights a profound need to understand and support someone in a meaningful way, to truly make them feel valued. The summertime backdrop seems to intensify these feelings, adding warmth and a unique vibrancy to the connection. This season often brings out a sense of openness and depth, reflecting the strong emotions and genuine care involved. The warmth of the season might enhance these feelings, but it also validates how deeply meaningful it is to seek such a genuine and supportive bond. It becomes clear how significant and heartfelt the effort to connect really is. In these moments, you should know that you're not alone. There are people who care deeply about you and are here to support you, offering understanding and warmth just as much as you give. During those times, I am also here for you. I am willing to be there for you. You don't have to face things alone because you have the option of having me by your side.",
+          image: "songs/RTA (1).jpg",
+          mp3: "mp3/Roadtrip to Antarctica - Summertime Lyrics Video (ft. Vika).mp3",
+          spotifyUrl:
+            "https://open.spotify.com/track/4NpEJp3Iw0Wk0lsPYQZeEF?si=73d2c9268c9948b2",
+        },
+        3: {
+          title: "Something Better - Elephant Kind",
+          content:
+            "The song reflects a deep desire for something better and a need to walk away from everything in order to find peace of mind. It captures the feeling of missing something inside and wanting to go back to a place where you can truly find yourself. Even though the path may seem familiar and the journey challenging, it's important to remember that seeking something better is always going to be valid and necessary for your well-being. It's okay to prioritize yourself and make choices that are best for you. As you navigate through these changes, know that you will find your way in time, and taking care of yourself is not selfish but essential. Even if the way forward isn't clear right now, you'll discover it in time with enough patience. Each step you take brings you closer to finding that place where you feel whole and at peace.",
+          image: "songs/SB (1).jpg",
+          mp3: "mp3/Something Better.mp3",
+          spotifyUrl:
+            "https://open.spotify.com/track/0pzohEVSAXUWszbeQFpByb?si=ec84f9173d7a479c",
+        },
+        4: {
+          title: "Cornerstone - Arctic Monkeys",
+          content:
+            "2 years ago, you asked me what song reminds me of you and I answered this song. I hope you haven't forgotten, but if you did, I'll reiterate. It's easy to meet someone who could share some of your traits or personality, but they could never be you. You're someone not easy to forget, trust me. Unexpectedly, on a random day, you became my first friend inside our 10th grade classroom. The bond we shared the following years is something I could and would not forget, and it's something worth being grateful for. And I am, incredibly grateful. Our friendship has been a cornerstone of my high school experience, and the memories we made together are invaluable. I'm incredibly grateful for the time we've spent and for the person you are. You're a person not easy to forget, and the memories we shared are precious and hard to let go of. Thank you for everything you've done.",
+          image: "songs/CRTS (1).jpg",
+          mp3: "mp3/Arctic Monkeys - Cornerstone (Official Video).mp3",
+          spotifyUrl:
+            "https://open.spotify.com/track/5bsnLiT00hG37qd8p2jdVl?si=969f236e202c4dbe",
+        },
+        5: {
+          title: "Split - NIKI",
+          content:
+            "The song talks about becoming caught up between difficult choices, like being stuck between a rock and a hard place. There comes a time when the weight of those choices can make you feel like a part of you is missing, since your heart and head are at war. Even though this struggle may be invisible to others, and you feel as if you're always going to be stuck, things will fall into place in time. As a wise person once said, 'things happen for a reason.' What's meant for you will find its way to you, and you'll find your path through those tough times. It's okay to prioritize yourself and make choices that are best for you. Seeking something better and finding peace of mind is important, altogether. Please remember, it's not selfish to take care of your own well-being. If you do not know how to navigate through it right now, you will find your way in time.",
+          image: "songs/NS (1).jpg",
+          mp3: "mp3/NIKI - Split (Lyric Video).mp3",
+          spotifyUrl:
+            "https://open.spotify.com/track/4Bz72Fo4teXVMvDUi8xuw7?si=21b2dcc12ba447b8",
+        },
+        6: {
+          title: "Show me How - Men I Trust",
+          content:
+            "The songs touches on a deep yearning to connect and understand someonone, and it relates to me in a way. I am aware of my tendency to be distant, it is natural, unfortunately. This song kinds of reflect that struggle; turning around and having visions of something that just feels out of reach. While listening, I'm reminded of how I might come off as a distant person. My attemps to reach out and make up for that detachment are genuine, even if it may not always come across as intended. Despite all the times my words and actions had fell short, I do want to express that I care. There are times where I'm caught up in my own bubble, and it feels like the friend I want to be for you is far away. I might not not always express it in the best way, but know that I'm here and trying to bridge that gap. My efforts to make up for that distance are sincere and I am continually working on that bridge and be the friend you deserve.",
+          image: "songs/SMH (1).jpg",
+          mp3: "mp3/show me how  men i trust [lyrics].mp3",
+          spotifyUrl:
+            "https://open.spotify.com/track/75IQVo8hqI1iwVZyvkN2VT?si=8a6376ab12734e35",
+        },
+        7: {
+          title: "Epiphany - Taylor Swift",
+          content:
+            "Listening to 'epiphany' brings to light the struggles and emotional challenges one often face, which mirrors some of the feelings you've felt. It acknowledges the weight of personal struggles and the sense of being caught in your own battles, which aligns with the challenges of trying to connect deeply while feeling like you're falling short. The repeated reassurance in the song, 'Keep your head up,'' serves as a reminder that despite the hardships, there's always a path forward. Just as the song suggests, even when it feels like your efforts to connect might not be fully realized, I know that your attempts are deeply valued. Your daily efforts don't go unnoticed, and for those alone, you should be proud. 'epiphany' highlights that these feelings are part of the human experience, and it's okay to acknowledge them. Each step you take, no matter how small, is a significant part of your journey. The song's message of enduring through hard times and finding comfort in the struggle mirrors the baby steps you're taking towards bridging the gap and connecting more deeply. Even the smallest efforts are meaningful and contribute to the larger picture of growth and understanding. Your dedication each day are truly worth it, and just as the song offers comfort amidst hardships, your ongoing efforts to make meaningful changes are seen and valued.",
+          image: "songs/EP (1).jpg",
+          mp3: "mp3/Taylor Swift  epiphany (Official Lyric Video).mp3",
+          spotifyUrl:
+            "https://open.spotify.com/track/08fa9LFcFBTcilB3iq2e2A?si=74c4f47edebe45ba",
+        },
+        8: {
+          title: "Your Universe - Rico Blanco",
+          content:
+            "Remember recollection when you questioned how you make me feel better when I don't even express myself? I know that I am a closed-off person who might come across as distant, sometimes. But I just want to express now that I am grateful for our friendship. When I am caught up in my own bubble, talking to you makes me forget that I am alone. That's why, despite my natural tendencies, I am working on becoming the friend you deserve. You have an ability to make people feel better just by being you. You're attentive and thoughtful in a way no one can comprehend or compare to. Being your friend is a privilege, and I feel bad for people who won't be able to experience nor understand what I'm talking about. Even though I am unable to and dislike the idea of ever expressing myself, with you, it feels okay to do so. Thank you for being there, for making me feel that it's okay to be me.",
+          image: "songs/YU.jpg",
+          mp3: "mp3/Rico Blanco - Your Universe (Lyrics)",
+          spotifyUrl:
+            "https://open.spotify.com/track/7vWHppvllFJXdXf0xplZum?si=2e7d8ecb582747bc",
+        },
+        9: {
+          title: "Superpowers - Daniel Caesar",
+          content: "To be constructed....",
+          image: "songs/SP.jpeg",
+          mp3: "mp3/Daniel Caesar - Superpowers (Official Audio).mp3",
+          spotifyUrl:
+            "https://open.spotify.com/track/736PP5LTtREkDgktNmX3Gu?si=51ca100df107444a",
+        },
+      };
+
+      const detail = details[id];
+      if (detail) {
+        document.getElementById("detail-title").textContent = detail.title;
+        document.getElementById("detail-content").textContent = detail.content;
+        document.getElementById("detail-image").src = detail.image;
+        audioPlayer.src = detail.mp3;
+        document
+          .querySelector(".spotify-icon")
+          .setAttribute("onclick", `window.open('${detail.spotifyUrl}')`);
+      }
+
+      function openSpotify() {
+        const spotifyUrl = details[id]?.spotifyUrl;
+        if (spotifyUrl) {
+          window.open(spotifyUrl);
+        }
+      }
+    </script>
+  </body>
+</html>
